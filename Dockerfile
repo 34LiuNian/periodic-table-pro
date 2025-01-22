@@ -1,6 +1,13 @@
 # 使用 Node.js 官方镜像
 FROM node:18-alpine
 
+# 安装构建依赖工具（例如 build-essential 和 python）
+RUN apk add --no-cache \
+    bash \
+    build-base \
+    python3 \
+    && npm install -g npm@latest # 更新 npm 为最新版本
+
 # 设置工作目录
 WORKDIR /app
 
