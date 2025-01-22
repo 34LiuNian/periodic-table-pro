@@ -1,0 +1,39 @@
+name: Docker Build and Save
+
+on:
+  push:
+    branches:
+      - main  # 也可以指定其他分支
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # 使用最新的 Ubuntu 虚拟环境
+
+    steps:
+      # 获取代码
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # 设置 Docker 环境
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # 构建 Docker 镜像
+      - name: Build Docker image
+        run: |
+          docker build -t periodic-table-pro .
+
+      # 保存 Docker 镜像为 tar 文件
+      - name: Save Docker image as .tar file
+        run: |
+          docker save periodic-table-pro -o periodic-table-pro.tar
+
+      # 将 tar 文件上传为 GitHub Artifact
+      - name: Upload Docker image as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: docker-image
+          path: periodic-table-pro.tar
