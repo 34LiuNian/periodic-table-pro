@@ -33,7 +33,7 @@ jobs:
 
       # 将 tar 文件上传为 GitHub Artifact
       - name: Upload Docker image as artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: docker-image
           path: periodic-table-pro.tar
